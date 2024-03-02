@@ -284,7 +284,7 @@ class CopyElementTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter([1, 2], Connection::PARAM_INT_ARRAY)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertTrue(empty($rows));
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');

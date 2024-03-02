@@ -13,6 +13,7 @@ namespace B13\Container\Tests\Functional\Datahandler\ContentDefender;
  */
 
 use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use TYPO3\CMS\Core\Database\Connection;
 
 class DefaultLanguageTest extends DatahandlerTest
 {
@@ -129,11 +130,11 @@ class DefaultLanguageTest extends DatahandlerTest
             ->where(
                 $queryBuilder->expr()->eq(
                     't3_origuid',
-                    $queryBuilder->createNamedParameter(71, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(71, Connection::PARAM_INT)
                 )
             )
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
         self::assertFalse($row, 'element should not be copied');
     }
 

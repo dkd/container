@@ -137,7 +137,7 @@ class MaxItemsTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter(2)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row);
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -169,7 +169,7 @@ class MaxItemsTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter(2)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row);
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -206,7 +206,7 @@ class MaxItemsTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter($newId)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertIsArray($row);
         self::assertSame([], $this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -243,7 +243,7 @@ class MaxItemsTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter($newId)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row);
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');

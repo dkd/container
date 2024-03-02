@@ -5,32 +5,6 @@ defined('TYPO3') || die('Access denied.');
 call_user_func(static function () {
     $typo3Version = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class);
 
-    if ($typo3Version->getMajorVersion() === 10) {
-        // register default icons
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Imaging\IconRegistry::class
-        );
-        $iconsToRegister = [
-            'container-1col',
-            'container-2col',
-            'container-2col-left',
-            'container-2col-right',
-            'container-3col',
-            'container-4col',
-        ];
-        foreach ($iconsToRegister as $icon) {
-            $iconRegistry->registerIcon(
-                $icon,
-                \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-                [
-                    'source' => 'EXT:container/Resources/Public/Icons/' . $icon . '.svg',
-                ]
-            );
-        }
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing']['tx_container'] =
-            \B13\Container\Hooks\TableConfigurationPostProcessing::class;
-    }
-
     if ($typo3Version->getMajorVersion() < 12) {
         // remove container colPos from "unused" page-elements (v12: IsContentUsedOnPageLayoutEvent)
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['record_is_used']['tx_container'] =

@@ -13,6 +13,7 @@ namespace B13\Container\Tests\Functional\Datahandler\ContentDefender;
  */
 
 use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use TYPO3\CMS\Core\Database\Connection;
 
 class LocalizationTest extends DatahandlerTest
 {
@@ -96,10 +97,10 @@ class LocalizationTest extends DatahandlerTest
             ->where(
                 $queryBuilder->expr()->eq(
                     't3_origuid',
-                    $queryBuilder->createNamedParameter(72, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(72, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row, 'translation should not be copied');
     }

@@ -72,7 +72,7 @@ class SortingWithContentDefenderTest extends FunctionalTestCase
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
         $res = $queryBuilder->select('uid', 'sorting', 'colPos')
             ->from('tt_content')
-            ->execute()
+            ->executeQuery()
             ->fetchAllAssociative();
         $rows = [];
         foreach ($res as $row) {

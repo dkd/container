@@ -13,6 +13,7 @@ namespace B13\Container\Tests\Functional\Datahandler\Localization;
  */
 
 use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use TYPO3\CMS\Core\Database\Connection;
 
 class LocalizeTest extends DatahandlerTest
 {
@@ -180,10 +181,10 @@ class LocalizeTest extends DatahandlerTest
             ->where(
                 $queryBuilder->expr()->eq(
                     't3_origuid',
-                    $queryBuilder->createNamedParameter(72, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(72, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row);
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is empty');
@@ -210,10 +211,10 @@ class LocalizeTest extends DatahandlerTest
             ->where(
                 $queryBuilder->expr()->eq(
                     't3_origuid',
-                    $queryBuilder->createNamedParameter(72, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(72, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertFalse($row, 'child should not be translated');
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log should be empty');

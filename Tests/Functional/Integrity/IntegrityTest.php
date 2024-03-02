@@ -19,6 +19,7 @@ use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Backend\View\BackendLayout\ContentFetcher;
 use TYPO3\CMS\Backend\View\PageLayoutContext;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -74,10 +75,10 @@ class IntegrityTest extends FunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter(2, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(2, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         $pageLayoutContext = new PageLayoutContext($pageRecord, $backendLayout);
         $contentFetcher = new ContentFetcher($pageLayoutContext);
@@ -111,10 +112,10 @@ class IntegrityTest extends FunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter(2, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(2, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertSame(1, $record['deleted']);
     }

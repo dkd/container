@@ -12,6 +12,7 @@ namespace B13\Container\Tests\Functional\Datahandler;
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -104,10 +105,10 @@ abstract class DatahandlerTest extends FunctionalTestCase
             ->where(
                 $queryBuilder->expr()->eq(
                     $field,
-                    $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($id, Connection::PARAM_INT)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertIsArray($row, 'cannot fetch row for field ' . $field . ' with id ' . $id);
         return $row;

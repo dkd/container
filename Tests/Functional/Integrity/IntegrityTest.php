@@ -18,9 +18,9 @@ use B13\Container\Integrity\IntegrityFix;
 use TYPO3\CMS\Backend\View\BackendLayout\BackendLayout;
 use TYPO3\CMS\Backend\View\BackendLayout\ContentFetcher;
 use TYPO3\CMS\Backend\View\PageLayoutContext;
-use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -62,7 +62,7 @@ class IntegrityTest extends FunctionalTestCase
 
         $this->importCSVDataSet(__DIR__ . '/../Fixtures/be_users.csv');
         $GLOBALS['BE_USER'] = $this->setUpBackendUser(1);
-        Bootstrap::initializeLanguageObject();
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
 
         $backendLayout = new BackendLayout(
             'foo',
@@ -80,6 +80,8 @@ class IntegrityTest extends FunctionalTestCase
             )
             ->executeQuery()
             ->fetchAssociative();
+        //$drawingConfiguration = GeneralUtility::makeInstance(DrawingConfiguration::class);
+        //$pageLayoutContext = new PageLayoutContext($pageRecord, $backendLayout, new NullSite(), $drawingConfiguration, new ServerRequest());
         $pageLayoutContext = new PageLayoutContext($pageRecord, $backendLayout);
         $contentFetcher = new ContentFetcher($pageLayoutContext);
         $unusedRecords = $contentFetcher->getUnusedRecords();

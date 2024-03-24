@@ -434,13 +434,7 @@ class ContainerTest extends DatahandlerTest
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
         $origFirstElement = $this->fetchOneRecord('uid', 2);
-        if ($this->typo3MajorVersion < 11) {
-            // we have to consider the moved placeholder
-            $workspaceElement = $this->fetchOneRecord('t3ver_move_id', 5);
-        } else {
-            // will not work in v10
-            $workspaceElement = $this->fetchOneRecord('t3ver_oid', 5);
-        }
+        $workspaceElement = $this->fetchOneRecord('t3ver_oid', 5);
         self::assertSame(1, $workspaceElement['tx_container_parent']);
         self::assertSame(200, $workspaceElement['colPos']);
         self::assertTrue($workspaceElement['sorting'] > $origFirstElement['sorting']);

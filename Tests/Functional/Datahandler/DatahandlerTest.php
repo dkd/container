@@ -15,15 +15,12 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 abstract class DatahandlerTest extends FunctionalTestCase
 {
-    protected $typo3MajorVersion;
-
     /**
      * @var DataHandler
      */
@@ -47,13 +44,6 @@ abstract class DatahandlerTest extends FunctionalTestCase
      */
     protected array $coreExtensionsToLoad = ['workspaces'];
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-        $this->typo3MajorVersion = $typo3Version->getMajorVersion();
-    }
-
     protected function linkSiteConfigurationIntoTestInstance(): void
     {
         $from = ORIGINAL_ROOT . '../../Build/sites';
@@ -72,9 +62,6 @@ abstract class DatahandlerTest extends FunctionalTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        if ($this->typo3MajorVersion === 10) {
-            $this->importCSVDataSet(__DIR__ . '/../Fixtures/sys_language_for_v10.csv');
-        }
         $this->importCSVDataSet(__DIR__ . '/../Fixtures/be_users.csv');
         $this->backendUser = $GLOBALS['BE_USER'] = $this->setUpBackendUser(1);
         $GLOBALS['BE_USER'] = $this->backendUser;

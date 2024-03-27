@@ -12,13 +12,7 @@ namespace B13\Container\Tests\Acceptance\Support\Extension;
  * of the License, or any later version.
  */
 
-use Codeception\Event\SuiteEvent;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Information\Typo3Version;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
-use TYPO3\TestingFramework\Core\Functional\Framework\DataHandling\DataSet;
-use TYPO3\TestingFramework\Core\Testbase;
 
 class BackendContainerEnvironment extends BackendEnvironment
 {

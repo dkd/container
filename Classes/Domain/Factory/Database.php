@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -50,10 +51,12 @@ class Database implements SingletonInterface
             && ApplicationType::fromRequest($this->getServerRequest())->isFrontend()
         ) {
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
-            // do not use FrontendWorkspaceRestriction
-            $queryBuilder->getRestrictions()
-                ->removeByType(FrontendWorkspaceRestriction::class)
-                ->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, $this->workspaceId));
+            if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 11) {
+                // do not use FrontendWorkspaceRestriction
+                $queryBuilder->getRestrictions()
+                    ->removeByType(FrontendWorkspaceRestriction::class)
+                    ->add(GeneralUtility::makeInstance(WorkspaceRestriction::class, $this->workspaceId));
+            }
         } else {
             $queryBuilder->getRestrictions()
                 ->removeAll()

@@ -12,6 +12,8 @@ namespace B13\Container\Tests\Acceptance\Support\Extension;
  * of the License, or any later version.
  */
 
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 class BackendContainerEnvironment extends BackendEnvironment
@@ -37,7 +39,7 @@ class BackendContainerEnvironment extends BackendEnvironment
         'testExtensionsToLoad' => [
             'typo3conf/ext/container',
             'typo3conf/ext/container_example',
-            //'typo3conf/ext/content_defender',
+            'typo3conf/ext/content_defender',
         ],
         'csvDatabaseFixtures' => [
             __DIR__ . '/../../Fixtures/be_users.csv',
@@ -63,4 +65,17 @@ class BackendContainerEnvironment extends BackendEnvironment
             __DIR__ . '/../../Fixtures/be_groups.csv',
         ],
     ];
+
+
+    public function _initialize(): void
+    {
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        if ($typo3Version->getMajorVersion() === 13) {
+            $this->localConfig['testExtensionsToLoad'] = [
+                'typo3conf/ext/container',
+                'typo3conf/ext/container_example',
+            ];
+        }
+        parent::_initialize();
+    }
 }

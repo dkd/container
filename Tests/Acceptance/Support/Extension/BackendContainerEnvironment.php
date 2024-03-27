@@ -66,7 +66,6 @@ class BackendContainerEnvironment extends BackendEnvironment
         ],
     ];
 
-
     public function _initialize(): void
     {
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);

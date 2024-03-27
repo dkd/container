@@ -14,12 +14,6 @@ parameters:
 
   ignoreErrors:
     -
-      message: '#Access to an undefined property B13\\Container\\Tests\\Acceptance\\Support\\Extension\\BackendContainerEnvironment::\$config.#'
-      path: %currentWorkingDirectory%/Tests/Acceptance/Support/Extension/BackendContainerEnvironment.php
-    -
-      message: '#Call to an undefined static method TYPO3\\TestingFramework\\Core\\Acceptance\\Extension\\BackendEnvironment::bootstrapTypo3Environment\(\).#'
-      path: %currentWorkingDirectory%/Tests/Acceptance/Support/Extension/BackendContainerEnvironment.php
-    -
       message: '#Method TYPO3\\CMS\\Core\\Domain\\Repository\\PageRepository::getLanguageOverlay\(\) invoked with 3 parameters, 2 required.#'
       path: %currentWorkingDirectory%/Classes/Domain/Factory/PageView/Frontend/ContainerFactory.php
     -
@@ -28,9 +22,6 @@ parameters:
     -
       message: '#Constant ORIGINAL_ROOT not found.#'
       path: %currentWorkingDirectory%/Tests
-    -
-      message: '#Call to an undefined static method TYPO3\\TestingFramework\\Core\\Acceptance\\Extension\\BackendEnvironment::_initialize\(\).#'
-      path: %currentWorkingDirectory%/Tests/Acceptance/Support/Extension/BackendContainerEnvironment.php
     -
       message: '#PHPDoc tag @.*#'
       path: %currentWorkingDirectory%/Tests/Acceptance/Support/_generated/BackendTesterActions.php

@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
-abstract class DatahandlerTest extends FunctionalTestCase
+abstract class AbstractDatahandler extends FunctionalTestCase
 {
     /**
      * @var DataHandler

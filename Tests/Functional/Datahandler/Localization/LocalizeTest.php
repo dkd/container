@@ -12,10 +12,10 @@ namespace B13\Container\Tests\Functional\Datahandler\Localization;
  * of the License, or any later version.
  */
 
-use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use B13\Container\Tests\Functional\Datahandler\AbstractDatahandler;
 use TYPO3\CMS\Core\Database\Connection;
 
-class LocalizeTest extends DatahandlerTest
+class LocalizeTest extends AbstractDatahandler
 {
     protected function setUp(): void
     {

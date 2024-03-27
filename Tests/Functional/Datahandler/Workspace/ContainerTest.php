@@ -12,14 +12,14 @@ namespace B13\Container\Tests\Functional\Datahandler\Workspace;
  * of the License, or any later version.
  */
 
-use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use B13\Container\Tests\Functional\Datahandler\AbstractDatahandler;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\WorkspaceAspect;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ContainerTest extends DatahandlerTest
+class ContainerTest extends AbstractDatahandler
 {
     protected function setUp(): void
     {

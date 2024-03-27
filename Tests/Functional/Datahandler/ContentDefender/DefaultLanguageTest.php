@@ -12,12 +12,12 @@ namespace B13\Container\Tests\Functional\Datahandler\ContentDefender;
  * of the License, or any later version.
  */
 
-use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use B13\Container\Tests\Functional\Datahandler\AbstractDatahandler;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class DefaultLanguageTest extends DatahandlerTest
+class DefaultLanguageTest extends AbstractDatahandler
 {
     /**
      * @var non-empty-string[]

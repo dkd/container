@@ -51,7 +51,7 @@ class Database implements SingletonInterface
             && ApplicationType::fromRequest($this->getServerRequest())->isFrontend()
         ) {
             $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
-            if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 11) {
+            if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 12) {
                 // do not use FrontendWorkspaceRestriction
                 $queryBuilder->getRestrictions()
                     ->removeByType(FrontendWorkspaceRestriction::class)

@@ -92,7 +92,7 @@ class ContainerConfiguration
         $this->label = $label;
         $this->description = $description;
         $this->grid = $grid;
-        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() === 12) {
+        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() > 11) {
             $this->gridPartialPaths = [
                 'EXT:backend/Resources/Private/Partials/',
                 'EXT:container/Resources/Private/Partials12/',

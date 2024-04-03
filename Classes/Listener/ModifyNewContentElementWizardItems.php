@@ -36,7 +36,6 @@ class ModifyNewContentElementWizardItems
                 } else {
                     $wizardItems[$key]['defaultValues']['tx_container_parent'] = $parent;
                 }
-
             }
             $event->setWizardItems($wizardItems);
         }

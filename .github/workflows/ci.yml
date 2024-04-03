@@ -15,6 +15,9 @@ jobs:
       matrix:
         php: [ '8.1' ]
         TYPO3: [ '11', '12' ]
+        include:
+          - TYPO3: '13'
+            php: '8.2'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,13 +25,36 @@ jobs:
       - name: Install testing system
         run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s composerInstall
 
+      - name: Composer validate
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -s composerValidate
+
+      - name: Lint PHP
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -s lint
+
+      - name: CGL
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -s cgl -n
+
+      - name: phpstan
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s phpstan
+
+      - name: Unit Tests
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -s unit
+
+      - name: Functional Tests with mariadb with content_defender
+        if: matrix.TYPO3 != '13'
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s functional
+
+      - name: Functional Tests with mariadb v13
+        if: matrix.TYPO3 == '13'
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s functional -e "--exclude-group=content_defender"
+
       - name: Acceptance Tests with content_defender
         if: matrix.TYPO3 != '13'
         run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e --fail-fast
 
-      - name: Acceptance Tests v13
-        if: matrix.TYPO3 == '13'
-        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e "--fail-fast --skip-group=content_defender"
+#      - name: Acceptance Tests v13
+#        if: matrix.TYPO3 == '13'
+#        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e "--fail-fast --skip-group=content_defender"
 
       - name: Archive acceptance tests results
         uses: actions/upload-artifact@v2

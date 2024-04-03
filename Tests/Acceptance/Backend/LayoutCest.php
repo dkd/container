@@ -199,6 +199,7 @@ class LayoutCest
         $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
+            $I->waitForText('Header Only');
             $I->click('Header Only');
         } else {
             $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('header ')");
@@ -230,20 +231,23 @@ class LayoutCest
         $dataColPos = $I->getDataColPos(1, 200);
         $I->waitForElement('#element-tt_content-1 [data-colpos="' . $dataColPos . '"]');
         $selector = '#element-tt_content-1 div:nth-child(1) div:nth-child(2)';
-        if ((new Typo3Version())->getMajorVersion() === 10) {
-            $I->dontSee('english', $selector);
-        } else {
-            $I->dontSeeElement($selector . ' .t3js-flag[title="english"]');
-        }
+        $I->dontSeeElement($selector . ' .t3js-flag[title="english"]');
         $I->click('Content', '#element-tt_content-1 [data-colpos="' . $dataColPos . '"]');
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Header Only');
+        $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
+            $I->waitForText('Header Only');
             $I->click('Header Only');
         } else {
-            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('header ')");
+            $I->waitForText('Header Only');
+            if ($typo3Version->getMajorVersion() < 13) {
+                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
+            } else {
+                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"default_header\"]').click()");
+            }
         }
         $I->switchToContentFrame();
         $I->click('Save');
@@ -290,12 +294,19 @@ class LayoutCest
         $I->click('Content', '#element-tt_content-' . $uid . ' [data-colpos="' . $dataColPos . '"]');
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Header Only');
+        $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
+            $I->waitForText('Header Only');
             $I->click('Header Only');
         } else {
-            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('header ')");
+            $I->waitForText('Header Only');
+            if ($typo3Version->getMajorVersion() < 13) {
+                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
+            } else {
+                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"default_header\"]').click()");
+            }
         }
         $I->switchToContentFrame();
         $I->click('Save');
@@ -373,12 +384,7 @@ class LayoutCest
 
         $I->waitForElement('select[name="_langSelector"]');
         $I->selectOption('select[name="_langSelector"]', 'german [NEW]');
-        $typo3Version = new Typo3Version();
-        if ($typo3Version->getMajorVersion() === 10) {
-            $I->see('[Translate to language-1:] headerOfChild');
-        } else {
-            $I->see('[Translate to german:] headerOfChild');
-        }
+        $I->see('[Translate to german:] headerOfChild');
     }
 
     /**

@@ -196,19 +196,13 @@ class LayoutCest
         // "[data-colpos="700-200"]" can be attribute of "td" or "div" tag, depends if Fluid based page module is enabled
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Typical page content');
+        $I->waitForText('Header Only');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
             $I->waitForText('Header Only');
             $I->click('Header Only');
         } else {
-            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('header ')");
-            $I->waitForText('Header Only');
-            if ($typo3Version->getMajorVersion() < 13) {
-                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
-            } else {
-                $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"default_header\"]').click()");
-            }
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"common_header\"]').click()");
         }
         $I->switchToContentFrame();
         $I->see('header [200]');

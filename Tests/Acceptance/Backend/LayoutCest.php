@@ -254,11 +254,7 @@ class LayoutCest
         $I->waitForElementNotVisible('#t3js-ui-block');
         $I->click('Close');
         $I->waitForElementNotVisible('#t3js-ui-block');
-        if ((new Typo3Version())->getMajorVersion() === 10) {
-            $I->see('english', $selector);
-        } else {
-            $I->canSeeElement($selector . ' .t3js-flag[title="english"]');
-        }
+        $I->canSeeElement($selector . ' .t3js-flag[title="english"]');
     }
 
     /**
@@ -313,11 +309,7 @@ class LayoutCest
         $I->waitForElementNotVisible('#t3js-ui-block');
         $I->click('Close');
         $I->waitForElementNotVisible('#t3js-ui-block');
-        if ((new Typo3Version())->getMajorVersion() === 10) {
-            $I->see('german', $selector);
-        } else {
-            $I->canSeeElement($selector . ' .t3js-flag[title="german"]');
-        }
+        $I->canSeeElement($selector . ' .t3js-flag[title="german"]');
     }
 
     /**
@@ -340,16 +332,14 @@ class LayoutCest
         } else {
             $I->selectOption('select[name="actionMenu"]', 'Language Comparison');
         }
-        if ((new Typo3Version())->getMajorVersion() > 10) {
-            if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 12) {
-                $I->waitForElement('select[name="languageMenu"]');
-                $I->selectOption('select[name="languageMenu"]', 'All languages');
-            } else {
-                $I->waitForText('Language');
-                $I->click('Language');
-                $I->waitForText('All languages');
-                $I->click('All languages');
-            }
+        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 12) {
+            $I->waitForElement('select[name="languageMenu"]');
+            $I->selectOption('select[name="languageMenu"]', 'All languages');
+        } else {
+            $I->waitForText('Language');
+            $I->click('Language');
+            $I->waitForText('All languages');
+            $I->click('All languages');
         }
         $I->waitForElementVisible('a.t3js-localize');
         $I->click('a.t3js-localize');

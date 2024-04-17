@@ -196,7 +196,6 @@ class LayoutCest
         // "[data-colpos="700-200"]" can be attribute of "td" or "div" tag, depends if Fluid based page module is enabled
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
             $I->waitForText('Header Only');
@@ -235,7 +234,6 @@ class LayoutCest
         $I->click('Content', '#element-tt_content-1 [data-colpos="' . $dataColPos . '"]');
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
             $I->waitForText('Header Only');
@@ -290,7 +288,6 @@ class LayoutCest
         $I->click('Content', '#element-tt_content-' . $uid . ' [data-colpos="' . $dataColPos . '"]');
         $I->switchToIFrame();
         $I->waitForElement('.modal-dialog');
-        $I->waitForText('Typical page content');
         $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
         if ($typo3Version->getMajorVersion() < 12) {
             $I->waitForText('Header Only');

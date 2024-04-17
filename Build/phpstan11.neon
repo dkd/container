@@ -26,6 +26,9 @@ parameters:
       message: '#Call to an undefined static method TYPO3\\TestingFramework\\Core\\Acceptance\\Extension\\BackendEnvironment::_initialize\(\).#'
       path: %currentWorkingDirectory%/Tests/Acceptance/Support/Extension/BackendContainerEnvironment.php
     -
+      message: '#Call to an undefined static method TYPO3\\TestingFramework\\Core\\Acceptance\\Extension\\BackendEnvironment::bootstrapTypo3Environment\(\).#'
+      path: %currentWorkingDirectory%/Tests/Acceptance/Support/Extension/BackendContainerEnvironment.php
+    -
       message: '#PHPDoc tag @.*#'
       path: %currentWorkingDirectory%/Tests/Acceptance/Support/_generated/BackendTesterActions.php
     -

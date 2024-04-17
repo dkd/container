@@ -33,6 +33,9 @@ class PageTsConfigModuleCest
         if ($typo3Version->getMajorVersion() < 12) {
             $scenario->skip('InfoModuleCest is used');
         }
+        if ($typo3Version->getMajorVersion() > 12) {
+            $scenario->skip('(TODO check PageTS Active Config (preview template)no PageTsConfig required');
+        }
         $I->click('Page TSconfig');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithContainer-6']);

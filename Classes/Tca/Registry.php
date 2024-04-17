@@ -262,10 +262,6 @@ class Registry implements SingletonInterface
                 }
                 $groupedByGroup[$group][$cType] = $containerConfiguration;
             }
-            $pageTs .= LF . 'mod.web_layout.tt_content.preview {
-' . $cType . ' = ' . $containerConfiguration['backendTemplate'] . '
-}
-';
         }
 
         foreach ($groupedByGroup as $group => $containerConfigurations) {

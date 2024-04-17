@@ -10,9 +10,6 @@ parameters:
     - %currentWorkingDirectory%/Tests/Functional/Datahandler/ContentDefender
     - %currentWorkingDirectory%/Classes/Hooks/TableConfigurationPostProcessing.php
     - %currentWorkingDirectory%/Classes/Hooks/UsedRecords.php
-    - %currentWorkingDirectory%/Classes/Hooks/DrawItem.php
-    - %currentWorkingDirectory%/Classes/View/ContainerLayoutView.php
-    - %currentWorkingDirectory%/Classes/ViewHelpers/DrawChildrenViewHelper.php
     - %currentWorkingDirectory%/Tests/Functional/Hooks/UsedRecordsTest.php
     - %currentWorkingDirectory%/Tests/Unit/Hooks/UsedRecordsTest.php
     - %currentWorkingDirectory%/Classes/Hooks/WizardItems.php
@@ -22,9 +19,6 @@ parameters:
     -
       message: '#Call to protected method getRecordOverlay\(\) of class TYPO3\\CMS\\Core\\Domain\\Repository\\PageRepository.#'
       path: %currentWorkingDirectory%/Classes/Domain/Factory/PageView/Frontend/ContainerFactory.php
-    -
-      message: '#Method TYPO3\\CMS\\Backend\\View\\PageLayoutView::__construct\(\).* invoked with 1 parameter, 0 required.#'
-      path: %currentWorkingDirectory%/Classes/View/ContainerLayoutView.php
     -
       message: '#Constant ORIGINAL_ROOT not found.#'
       path: %currentWorkingDirectory%/Tests

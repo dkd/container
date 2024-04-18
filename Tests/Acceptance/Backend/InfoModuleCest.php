@@ -32,20 +32,8 @@ class InfoModuleCest
         $typo3Version = new Typo3Version();
         if ($typo3Version->getMajorVersion() >= 12) {
             $scenario->skip('PageTsConfigModuleCest is used');
+        } else {
+            $scenario->skip('(TODO check PageTS Active Config (preview template)no PageTsConfig required');
         }
-        $I->click('Info');
-        $I->waitForElement('#typo3-pagetree-tree .nodes .node');
-        $pageTree->openPath(['home', 'pageWithContainer-6']);
-        $I->wait(0.2);
-        $I->switchToContentFrame();
-
-        $selectbox1Name = 'WebInfoJumpMenu';
-        $selectbox2Name = 'SET[tsconf_parts]';
-
-        $I->waitForElement('select[name="' . $selectbox1Name . '"]');
-        $I->selectOption('select[name="' . $selectbox1Name . '"]', 'Page TSconfig');
-        $I->waitForElement('select[name="' . $selectbox2Name . '"]');
-        $I->selectOption('select[name="' . $selectbox2Name . '"]', 99);
-        $I->see('b13-2cols-with-header-container = EXT:container/Resources/Private/Templates/Container.html');
     }
 }

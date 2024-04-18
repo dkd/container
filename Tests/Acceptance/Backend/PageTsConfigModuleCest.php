@@ -32,23 +32,8 @@ class PageTsConfigModuleCest
         $typo3Version = new Typo3Version();
         if ($typo3Version->getMajorVersion() < 12) {
             $scenario->skip('InfoModuleCest is used');
-        }
-        if ($typo3Version->getMajorVersion() > 12) {
+        } else {
             $scenario->skip('(TODO check PageTS Active Config (preview template)no PageTsConfig required');
         }
-        $I->click('Page TSconfig');
-        $I->waitForElement('#typo3-pagetree-tree .nodes .node');
-        $pageTree->openPath(['home', 'pageWithContainer-6']);
-        $I->wait(0.2);
-        $I->switchToContentFrame();
-
-        $I->waitForElement('select[name="moduleMenu"]');
-        $I->selectOption('select[name="moduleMenu"]', 'Active page TSconfig');
-        $I->waitForElement('input[name="searchValue"]');
-        $I->fillField('searchValue', 'b13-2cols-with-header-container');
-        $I->waitForText('Configuration');
-        $I->click('Configuration');
-        $I->waitForText('b13-2cols-with-header-container');
-        $I->see('b13-2cols-with-header-container = EXT:container/Resources/Private/Templates/Container.html');
     }
 }

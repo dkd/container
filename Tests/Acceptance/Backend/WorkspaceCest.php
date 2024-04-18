@@ -46,7 +46,7 @@ class WorkspaceCest
         $I->click('Page');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithWorkspace']);
-        $I->wait(0.2);
+        $I->wait(1.2);
         $I->switchToContentFrame();
         $I->waitForText('header-live');
         $I->see('header-live');
@@ -65,7 +65,7 @@ class WorkspaceCest
         $I->click('Page');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithWorkspace']);
-        $I->wait(0.2);
+        $I->wait(1.2);
         $I->switchToContentFrame();
         $I->waitForText('header-ws');
         $I->dontSee('header-live');
@@ -84,7 +84,7 @@ class WorkspaceCest
         $I->click('Page');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithWorkspace']);
-        $I->wait(0.2);
+        $I->wait(1.2);
         $I->switchToContentFrame();
         if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 12) {
             $I->waitForElement('select[name="languageMenu"]');
@@ -111,7 +111,7 @@ class WorkspaceCest
         $I->click('Page');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithWorkspace']);
-        $I->wait(0.2);
+        $I->wait(1.2);
         $I->switchToContentFrame();
         if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() < 12) {
             $I->waitForElement('select[name="languageMenu"]');
@@ -134,15 +134,11 @@ class WorkspaceCest
      */
     public function testWorkspaceShowsLiveContainerUidForContainerParentFieldWhenContainerIsAlreadyMoved(BackendTester $I, PageTree $pageTree, Scenario $scenario)
     {
-        $typo3Version = new Typo3Version();
-        if ($typo3Version->getMajorVersion() < 11) {
-            $scenario->skip('test runs only on v11');
-        }
         $this->switchToTestWs($I);
         $I->click('Page');
         $I->waitForElement('#typo3-pagetree-tree .nodes .node');
         $pageTree->openPath(['home', 'pageWithWorkspace-movedContainer']);
-        $I->wait(0.2);
+        $I->wait(1.2);
         $I->switchToContentFrame();
         // 600 is live uid (603 is ws uid)
         $dataColPos = $I->getDataColPos(600, 200);
@@ -156,7 +152,7 @@ class WorkspaceCest
     protected function switchToLiveWs(BackendTester $I): void
     {
         $this->switchToWs($I, 'LIVE workspace');
-        $I->wait(0.3);
+        $I->wait(1.3);
     }
 
     /**
@@ -165,7 +161,7 @@ class WorkspaceCest
     protected function switchToTestWs(BackendTester $I): void
     {
         $this->switchToWs($I, 'test-ws');
-        $I->wait(0.3);
+        $I->wait(1.3);
     }
 
     /**

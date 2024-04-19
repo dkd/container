@@ -13,7 +13,6 @@ namespace B13\Container\Tca;
  */
 
 use B13\Container\Backend\Grid\ContainerGridColumn;
-use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
@@ -53,13 +52,15 @@ class Registry implements SingletonInterface
             );
         }
 
-        if (
-            (GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() === 12 ||
-            GeneralUtility::makeInstance(Features::class)->isFeatureEnabled('fluidBasedPageModule')
-        ) {
-            $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['previewRenderer'] = \B13\Container\Backend\Preview\ContainerPreviewRenderer::class;
-        }
+        $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['previewRenderer'] = \B13\Container\Backend\Preview\ContainerPreviewRenderer::class;
 
+        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() >= 13) {
+            if (!isset($GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions'])) {
+                $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions'] = [];
+            }
+            $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions']['saveAndClose'] =
+                $containerConfiguration->getSaveAndCloseInNewContentElementWizard();
+        }
         foreach ($containerConfiguration->getGrid() as $row) {
             foreach ($row as $column) {
                 if (str_contains((string)$column['colPos'], (string)ContainerGridColumn::CONTAINER_COL_POS_DELIMITER_V12)) {

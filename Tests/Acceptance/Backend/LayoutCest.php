@@ -158,6 +158,40 @@ class LayoutCest
      * @param PageTree $pageTree
      * @throws \Exception
      */
+    public function canCreateContainerContentElementSaveAndClose(BackendTester $I, PageTree $pageTree)
+    {
+        $I->click('Page');
+        $I->waitForElement('#typo3-pagetree-tree .nodes .node');
+        $pageTree->openPath(['home', 'emptyPage']);
+        $I->wait(0.2);
+        $I->switchToContentFrame();
+        $I->waitForText('Content');
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        if ($typo3Version->getMajorVersion() < 12) {
+            $I->click('Content');
+        } else {
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard-button').click()");
+        }
+        $I->switchToIFrame();
+        $I->waitForElement('.modal-dialog');
+        if ($typo3Version->getMajorVersion() < 12) {
+            $I->click('Container');
+            $I->click('2 Column');
+        } else {
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('container')");
+            $I->wait(0.5);
+            $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').shadowRoot.querySelector('button[data-identifier=\"container_b13-2cols\"]').click()");
+        }
+        $I->switchToContentFrame();
+        $I->waitForText('2-cols-left');
+        $I->canSee('2-cols-left', '.t3-grid-container');
+    }
+
+    /**
+     * @param BackendTester $I
+     * @param PageTree $pageTree
+     * @throws \Exception
+     */
     public function canDragAndDropElementOutsideIntoContainer(BackendTester $I, PageTree $pageTree)
     {
         $I->click('Page');

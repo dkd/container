@@ -229,6 +229,11 @@ class ContainerConfiguration
         return $this->gridPartialPaths;
     }
 
+    public function getSaveAndCloseInNewContentElementWizard(): bool
+    {
+        return $this->saveAndCloseInNewContentElementWizard;
+    }
+
     /**
      * @return string
      */

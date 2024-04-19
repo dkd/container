@@ -343,13 +343,7 @@ class LayoutCest
 
         $I->switchToIFrame();
         $I->waitForElement('.t3js-localization-option');
-        if ((new Typo3Version())->getMajorVersion() < 11) {
-            $I->click('.t3js-localization-option');
-            $I->click('Next');
-            $I->waitForElement('div[data-slide="localize-summary"]');
-        } else {
-            $I->waitForElement('div[data-bs-slide="localize-summary"]');
-        }
+        $I->waitForElement('div[data-bs-slide="localize-summary"]');
         $I->waitForText('(212) headerOfChild');
     }
 

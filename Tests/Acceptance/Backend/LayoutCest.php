@@ -176,7 +176,8 @@ class LayoutCest
         $I->waitForElement('.modal-dialog');
         if ($typo3Version->getMajorVersion() < 12) {
             $I->click('Container');
-            $I->click('2 Column');
+            // b13-2cols
+            $I->click('2 Column Some Description of the Container');
         } else {
             $I->executeJS("document.querySelector('typo3-backend-new-content-element-wizard').filter('container')");
             $I->wait(0.5);

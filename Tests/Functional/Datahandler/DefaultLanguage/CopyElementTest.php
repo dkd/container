@@ -12,10 +12,10 @@ namespace B13\Container\Tests\Functional\Datahandler\DefaultLanguage;
  * of the License, or any later version.
  */
 
-use B13\Container\Tests\Functional\Datahandler\DatahandlerTest;
+use B13\Container\Tests\Functional\Datahandler\AbstractDatahandler;
 use TYPO3\CMS\Core\Database\Connection;
 
-class CopyElementTest extends DatahandlerTest
+class CopyElementTest extends AbstractDatahandler
 {
     /**
      * @test
@@ -263,7 +263,7 @@ class CopyElementTest extends DatahandlerTest
      */
     public function copyContainerIntoItSelfs(): void
     {
-        $this->importCSVDataSet(__DIR__ . '/Fixtures/MoveElement/setup.csv');
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/CopyElement/setup.csv');
         $cmdmap = [
             'tt_content' => [
                 1 => [
@@ -284,9 +284,48 @@ class CopyElementTest extends DatahandlerTest
                     $queryBuilder->createNamedParameter([1, 2], Connection::PARAM_INT_ARRAY)
                 )
             )
-            ->execute()
+            ->executeQuery()
             ->fetchAssociative();
         self::assertTrue(empty($rows));
         self::assertNotEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
+    }
+
+    /**
+     * @test
+     */
+    public function copyMultipleContainersWithChildRecords(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/CopyElement/setup.csv');
+        $cmdmap = [
+            'tt_content' => [
+                1 => [
+                    'copy' => [
+                        'action' => 'paste',
+                        'target' => 1,
+                        'update' => [],
+                    ],
+                ],
+                6 => [
+                    'copy' => [
+                        'action' => 'paste',
+                        'target' => 1,
+                        'update' => [],
+                    ],
+                ],
+            ],
+        ];
+        $this->dataHandler->start([], $cmdmap, $this->backendUser);
+        $this->dataHandler->process_datamap();
+        $this->dataHandler->process_cmdmap();
+
+        $firstContainer = $this->fetchOneRecord('t3_origuid', 1);
+        $recordFirstContainer = $this->fetchOneRecord('t3_origuid', 2);
+        self::assertSame((int)$firstContainer['uid'], (int)$recordFirstContainer['tx_container_parent']);
+        self::assertSame(200, (int)$recordFirstContainer['colPos']);
+
+        $secondContainer = $this->fetchOneRecord('t3_origuid', 6);
+        $recordSecondContainer = $this->fetchOneRecord('t3_origuid', 7);
+        self::assertSame((int)$secondContainer['uid'], (int)$recordSecondContainer['tx_container_parent']);
+        self::assertSame(201, (int)$recordSecondContainer['colPos']);
     }
 }

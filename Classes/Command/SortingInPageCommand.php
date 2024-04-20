@@ -12,7 +12,7 @@ namespace B13\Container\Command;
  * of the License, or any later version.
  */
 
-use B13\Container\Integrity\Sorting;
+use B13\Container\Integrity\SortingInPage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,10 +22,10 @@ use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class SortingCommand extends Command
+class SortingInPageCommand extends Command
 {
     /**
-     * @var Sorting
+     * @var SortingInPage
      */
     protected $sorting;
 
@@ -41,7 +41,7 @@ class SortingCommand extends Command
         );
     }
 
-    public function __construct(Sorting $sorting, string $name = null)
+    public function __construct(SortingInPage $sorting, string $name = null)
     {
         parent::__construct($name);
         $this->sorting = $sorting;

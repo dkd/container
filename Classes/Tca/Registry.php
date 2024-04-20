@@ -12,7 +12,6 @@ namespace B13\Container\Tca;
  * of the License, or any later version.
  */
 
-use TYPO3\CMS\Core\Configuration\Features;
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
@@ -52,13 +51,15 @@ class Registry implements SingletonInterface
             );
         }
 
-        if (
-            (GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() === 12 ||
-            GeneralUtility::makeInstance(Features::class)->isFeatureEnabled('fluidBasedPageModule')
-        ) {
-            $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['previewRenderer'] = \B13\Container\Backend\Preview\ContainerPreviewRenderer::class;
-        }
+        $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['previewRenderer'] = \B13\Container\Backend\Preview\ContainerPreviewRenderer::class;
 
+        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() >= 13) {
+            if (!isset($GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions'])) {
+                $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions'] = [];
+            }
+            $GLOBALS['TCA']['tt_content']['types'][$containerConfiguration->getCType()]['creationOptions']['saveAndClose'] =
+                $containerConfiguration->getSaveAndCloseInNewContentElementWizard();
+        }
         foreach ($containerConfiguration->getGrid() as $row) {
             foreach ($row as $column) {
                 if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() >= 12) {
@@ -237,6 +238,12 @@ class Registry implements SingletonInterface
 
     public function getPageTsString(): string
     {
+        // s. https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/ContentElements/CustomBackendPreview.html#ConfigureCE-Preview-EventListener
+        // s. https://docs.typo3.org/c/typo3/cms-core/main/en-us/Changelog/13.0/Breaking-102834-RemoveItemsFromNewContentElementWizard.html
+        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+        if ($typo3Version->getMajorVersion() > 12) {
+            throw new \BadMethodCallException('removed with TYPO3 13');
+        }
         if (empty($GLOBALS['TCA']['tt_content']['containerConfiguration'])) {
             return '';
         }
@@ -252,11 +259,8 @@ class Registry implements SingletonInterface
                 }
                 $groupedByGroup[$group][$cType] = $containerConfiguration;
             }
-            $pageTs .= LF . 'mod.web_layout.tt_content.preview {
-' . $cType . ' = ' . $containerConfiguration['backendTemplate'] . '
-}
-';
         }
+
         foreach ($groupedByGroup as $group => $containerConfigurations) {
             $groupLabel = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['itemGroups'][$group] ?? $group;
 

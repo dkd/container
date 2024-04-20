@@ -80,8 +80,6 @@ class IntegrityTest extends FunctionalTestCase
             )
             ->executeQuery()
             ->fetchAssociative();
-        //$drawingConfiguration = GeneralUtility::makeInstance(DrawingConfiguration::class);
-        //$pageLayoutContext = new PageLayoutContext($pageRecord, $backendLayout, new NullSite(), $drawingConfiguration, new ServerRequest());
         $pageLayoutContext = new PageLayoutContext($pageRecord, $backendLayout);
         $contentFetcher = new ContentFetcher($pageLayoutContext);
         $unusedRecords = $contentFetcher->getUnusedRecords();

@@ -133,16 +133,7 @@ class Database implements SingletonInterface
         $stm->orderBy('pid');
         $stm->addOrderBy('colPos');
         $stm->addOrderBy('sorting');
-        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() >= 12) {
-            $stm = $stm->executeQuery();
-        } else {
-            $stm = $stm->execute();
-        }
-        if ((GeneralUtility::makeInstance(Typo3Version::class))->getMajorVersion() === 10) {
-            $results = $stm->fetchAll();
-        } else {
-            $results = $stm->fetchAllAssociative();
-        }
+        $results = $stm->executeQuery()->fetchAllAssociative();
         $rows = [];
         foreach ($results as $result) {
             $key = $result['pid'] . '-' . $result['colPos'];

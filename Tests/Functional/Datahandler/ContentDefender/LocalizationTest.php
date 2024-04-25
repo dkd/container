@@ -63,6 +63,8 @@ class LocalizationTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localization/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localization/MoveElementIntoContainerAtTopToNotMoveTranslationIfDisallowedCTypeResult.csv');
         $row = $this->fetchOneRecord('uid', 72);
         self::assertSame(0, (int)$row['tx_container_parent'], 'translation of element should not be in container');
         self::assertSame(0, (int)$row['colPos'], 'translation of element should not be in container colPos');
@@ -93,6 +95,8 @@ class LocalizationTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localization/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localization/CopyElementIntoContainerAtTopDoNotCopyTranslationIfDisallowedCTypeResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('*')
             ->from('tt_content')

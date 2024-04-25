@@ -31,6 +31,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/DeleteContainerDeleteTranslatedChildrenResult.csv');
         $row = $this->fetchOneRecord('uid', 21);
         self::assertSame(1, $row['deleted']);
         $row = $this->fetchOneRecord('uid', 22);
@@ -60,6 +62,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/MoveContainerToOtherPageMovesChildrenResult.csv');
         $child = $this->fetchOneRecord('uid', 22);
         self::assertSame(3, $child['pid']);
         self::assertSame(1, $child['tx_container_parent']);

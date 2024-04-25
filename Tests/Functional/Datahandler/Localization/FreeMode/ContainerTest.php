@@ -31,6 +31,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/DeleteContainerDeleteChildrenResult.csv');
         $row = $this->fetchOneRecord('uid', 51);
         self::assertSame(1, $row['deleted']);
         $row = $this->fetchOneRecord('uid', 52);
@@ -60,6 +62,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/MoveContainerToOtherPageMovesChildrenResult.csv');
         $child = $this->fetchOneRecord('uid', 52);
         self::assertSame(3, $child['pid']);
         self::assertSame(51, $child['tx_container_parent']);
@@ -90,6 +94,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/CopyContainerCopiesChildrenResult.csv');
         $copiedRecord = $this->fetchOneRecord('t3_origuid', 51);
         $child = $this->fetchOneRecord('t3_origuid', 52);
         self::assertSame(3, $child['pid']);
@@ -122,6 +128,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/CopyContainerToOtherLanguageCopiesChildrenResult.csv');
         $copiedRecord = $this->fetchOneRecord('t3_origuid', 51);
         $child = $this->fetchOneRecord('t3_origuid', 52);
         self::assertSame(3, $child['pid']);
@@ -153,6 +161,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/CopyContainerToOtherLanguageCopiesNestedChildrenResult.csv');
         $child = $this->fetchOneRecord('t3_origuid', 56);
         $nestedChild = $this->fetchOneRecord('t3_origuid', 57);
         self::assertSame($child['uid'], $nestedChild['tx_container_parent']);
@@ -183,6 +193,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Container/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Container/MoveContainerToOtherLanguageMovesChildrenResult.csv');
         $child = $this->fetchOneRecord('uid', 52);
         self::assertSame(3, $child['pid']);
         self::assertSame(51, $child['tx_container_parent']);

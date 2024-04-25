@@ -64,6 +64,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanMoveElementIntoContainerIfMaxitemsIsNotReachedResult.csv');
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(1, (int)$row['tx_container_parent'], 'element is not in container');
         self::assertSame(202, (int)$row['colPos'], 'element has wrong colPos');
@@ -96,6 +98,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CannotMoveElementIntoContainerIfMaxitemsIsReachedResult.csv');
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(0, (int)$row['tx_container_parent'], 'element is moved into container');
         self::assertSame(0, (int)$row['colPos'], 'element is moved into container colPos');
@@ -130,6 +134,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CannotCopyElementIntoContainerIfMaxitemsIsReachedAfterIntoContainerResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('*')
             ->from('tt_content')
@@ -162,6 +168,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CannotCopyElementIntoContainerIfMaxitemsIsReachedAfterElementResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('*')
             ->from('tt_content')
@@ -192,20 +200,22 @@ class MaxItemsTest extends AbstractDatahandler
                     'tx_container_parent' => 1,
                     'pid' => 1,
                     'sys_language_uid' => 0,
-                    'header' => $newId,
+                    'header' => 'my-new-header',
                 ],
             ],
         ];
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanCreateElementInContainerIfMaxitemsIsNotReachedResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('*')
             ->from('tt_content')
             ->where(
                 $queryBuilder->expr()->eq(
                     'header',
-                    $queryBuilder->createNamedParameter($newId)
+                    $queryBuilder->createNamedParameter('my-new-header')
                 )
             )
             ->executeQuery()
@@ -236,6 +246,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CannotCreateElementInContainerIfMaxitemsIsReachedResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('*')
             ->from('tt_content')
@@ -272,6 +284,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanEditElementInContainerWhenMaxitemIsReachedResult.csv');
         $row = $this->fetchOneRecord('uid', 3);
         self::assertSame('bar', $row['header'], 'header is not updated');
         self::assertSame([], $this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -302,6 +316,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanMoveContainerWithMaxitemsReachedColumnToOtherPageResult.csv');
         $row = $this->fetchOneRecord('uid', 1);
         self::assertSame(2, (int)$row['pid'], 'element is not moved to other page');
         $row = $this->fetchOneRecord('uid', 2);
@@ -334,6 +350,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanCopyContainerWithMaxitemsReachedColumnToOtherPageResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 1);
         self::assertSame(2, (int)$row['pid'], 'element is not moved to other page');
         $child = $this->fetchOneRecord('t3_origuid', 2);
@@ -365,6 +383,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanCopyElementFromContainerMaxitemsReachedColumnToOtherColumnResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(201, (int)$row['colPos'], 'element is not copied to other column');
         self::assertSame([], $this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -394,6 +414,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanCopyElementFromContainerMaxitemsReachedColumnToOtherContainerResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(3, (int)$row['tx_container_parent'], 'element is not copied to other container');
         self::assertSame([], $this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -423,6 +445,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanMoveElementFromContainerMaxitemsReachedColumnToOtherContainerResult.csv');
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(3, (int)$row['tx_container_parent'], 'element is not copied to other container');
         self::assertSame([], $this->dataHandler->errorLog, 'dataHander error log is not empty');
@@ -470,6 +494,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanTranslateChildIfContainerOfDefaultLanguageMaxitemsIsReachedResult.csv');
         $this->fetchOneRecord('t3_origuid', 3);
         self::assertEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
     }
@@ -489,6 +515,8 @@ class MaxItemsTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanCopyToLanguageChildIfContainerOfDefaultLanguageMaxitemsIsReachedResult.csv');
         $this->fetchOneRecord('t3_origuid', 3);
         self::assertEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
     }
@@ -508,6 +536,8 @@ class MaxItemsTest extends AbstractDatahandler
         ];
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
+        $this->writeCsv(__DIR__, '/Fixtures/Maxitems/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Maxitems/CanSaveChildInDefaultLanguageWhenTranslatedAndMaxitemsIsReachedResult.csv');
         self::assertEmpty($this->dataHandler->errorLog, 'dataHander error log is not empty');
     }
 }

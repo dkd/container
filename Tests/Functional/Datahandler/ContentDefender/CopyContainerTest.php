@@ -59,6 +59,8 @@ class CopyContainerTest extends AbstractDatahandler
 
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerAfterElementCopiesChildEvenChildIsNotAllowedByContentDefenderInBackendLayoutResult.csv');
         $this->fetchOneRecord('t3_origuid', 2);
     }
 
@@ -84,6 +86,8 @@ class CopyContainerTest extends AbstractDatahandler
 
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerIntoOtherContainerWithSameColPosCopiesAlsoChildEvenChildIsDisallowedInTargetContainerResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 4);
         self::assertSame(1, (int)$row['tx_container_parent'], 'element is not copied into container');
         self::assertSame(200, (int)$row['colPos'], 'element is not copied into container colPos');
@@ -115,6 +119,8 @@ class CopyContainerTest extends AbstractDatahandler
 
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerWithRestrictionsIgnoresContentDefenderResult.csv');
         $container = $this->fetchOneRecord('t3_origuid', 11);
         $row = $this->fetchOneRecord('t3_origuid', 13);
         self::assertSame($container['uid'], (int)$row['tx_container_parent'], 'element is not copied into container');

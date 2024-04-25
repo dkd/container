@@ -33,13 +33,13 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
                     4 => ['copyToLanguage' => 1],
                     1 => ['copyToLanguage' => 1],
                 ],
-            ]],
+            ], 'Dataset1'],
             ['cmdmap' => [
                 'tt_content' => [
                     1 => ['copyToLanguage' => 1],
                     4 => ['copyToLanguage' => 1],
                 ],
-            ]],
+            ], 'Dataset2'],
         ];
     }
 
@@ -47,11 +47,13 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
      * @test
      * @dataProvider localizeKeepsSortingDataProvider
      */
-    public function localizeKeepsSorting(array $cmdmap): void
+    public function localizeKeepsSorting(array $cmdmap, string $dataset): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/localize_containers.csv');
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__ . $dataset);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeKeepsSorting' . $dataset . 'Result.csv');
         $translatedContainer1 = $this->fetchOneRecord('t3_origuid', 1);
         $translatedChild11 = $this->fetchOneRecord('t3_origuid', 2);
         $translatedChild12 = $this->fetchOneRecord('t3_origuid', 3);
@@ -78,6 +80,8 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeChildAtTopOfContainerResult.csv');
         $translatedContainer1 = $this->fetchOneRecord('uid', 4);
         $translatedChild11 = $this->fetchOneRecord('t3_origuid', 2);
         $translatedChild12 = $this->fetchOneRecord('uid', 5);
@@ -100,6 +104,8 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeChildAfterContainerChildResult.csv');
         $translatedContainer1 = $this->fetchOneRecord('uid', 4);
         $translatedChild11 = $this->fetchOneRecord('uid', 5);
         $translatedChild12 = $this->fetchOneRecord('t3_origuid', 3);

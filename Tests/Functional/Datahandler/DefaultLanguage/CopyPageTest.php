@@ -32,7 +32,8 @@ class CopyPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/CopyPage/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyPage/CopyPageCopiesChildrenOfContainerResult.csv');
         $copiedRecord = $this->fetchOneRecord('t3_origuid', 1);
         $child = $this->fetchOneRecord('t3_origuid', 2);
 

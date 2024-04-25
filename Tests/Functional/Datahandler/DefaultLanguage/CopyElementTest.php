@@ -41,6 +41,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyChildElementOutsideContainerAtTopResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(0, (int)$row['tx_container_parent']);
         self::assertSame(0, (int)$row['colPos']);
@@ -73,6 +75,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyChildElementOutsideContainerAfterElementResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(0, (int)$row['tx_container_parent']);
         self::assertSame(0, (int)$row['colPos']);
@@ -105,6 +109,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyChildElementToOtherColumnTopResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(1, (int)$row['tx_container_parent']);
         self::assertSame(201, (int)$row['colPos']);
@@ -138,6 +144,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyChildElementToOtherColumnAfterElementResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(1, (int)$row['tx_container_parent']);
         self::assertSame(201, (int)$row['colPos']);
@@ -170,6 +178,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementIntoContainerAtTopResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 4);
         self::assertSame(1, (int)$row['tx_container_parent']);
         self::assertSame(201, (int)$row['colPos']);
@@ -203,6 +213,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementIntoContainerAfterElementResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 4);
         self::assertSame(1, (int)$row['tx_container_parent']);
         self::assertSame(201, (int)$row['colPos']);
@@ -227,6 +239,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementIntoContainerAfterElementWithSimpleCommandMapResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 4);
         self::assertSame(1, (int)$row['tx_container_parent']);
         self::assertSame(201, (int)$row['colPos']);
@@ -251,6 +265,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementAfterContainerWithSimpleCommandMapResult.csv');
         $row = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(0, (int)$row['tx_container_parent']);
         self::assertSame(0, (int)$row['colPos']);
@@ -274,7 +290,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyContainerIntoItSelfsResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $rows = $queryBuilder->select('*')
             ->from('tt_content')
@@ -317,7 +334,8 @@ class CopyElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyMultipleContainersWithChildRecordsResult.csv');
         $firstContainer = $this->fetchOneRecord('t3_origuid', 1);
         $recordFirstContainer = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame((int)$firstContainer['uid'], (int)$recordFirstContainer['tx_container_parent']);

@@ -39,6 +39,8 @@ class LocalizeTest extends AbstractDatahandler
 
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/CopyChildToLanguageFixContainerParentResult.csv');
         $child = $this->fetchOneRecord('t3_origuid', 72);
         self::assertSame(73, $child['tx_container_parent'], 'container parent should have uid of translated container');
     }
@@ -59,6 +61,8 @@ class LocalizeTest extends AbstractDatahandler
 
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/CopyContainerToLanguageCopiesChildrenResult.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 2);
         $translatedContainerRow = $this->fetchOneRecord('t3_origuid', 1);
         self::assertSame($translatedContainerRow['uid'], $translatedChildRow['tx_container_parent']);
@@ -82,6 +86,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeContainerLocalizeChildrenResult.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(1, $translatedChildRow['tx_container_parent']);
         self::assertSame(200, $translatedChildRow['colPos']);
@@ -104,6 +110,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeContainerFromNonDefaultLanguageLocalizeChildrenResult.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 22);
         self::assertSame(1, $translatedChildRow['tx_container_parent']);
         self::assertSame(200, $translatedChildRow['colPos']);
@@ -127,6 +135,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/CopyToLanguageContainerFromNonDefaultLanguageLocalizeChildrenResult.csv');
         $translatedContainerRow = $this->fetchOneRecord('t3_origuid', 21);
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 22);
         self::assertSame($translatedContainerRow['uid'], $translatedChildRow['tx_container_parent']);
@@ -151,6 +161,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/CopyToLanguageContainerFromNonDefaultLanguageLocalizeChildrenWhenCopiedFromFreeModeResult.csv');
         $translatedContainerRow = $this->fetchOneRecord('t3_origuid', 51);
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 52);
         self::assertSame($translatedContainerRow['uid'], $translatedChildRow['tx_container_parent']);
@@ -175,6 +187,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeChildFailedIfContainerIsInFreeModeResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('uid')
             ->from('tt_content')
@@ -205,6 +219,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeChildFailedIfContainerIsNotTranslatedResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('uid')
             ->from('tt_content')
@@ -235,6 +251,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeChildKeepsRelationsIfContainerIsInConnectedModeResult.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 82);
         self::assertSame(81, $translatedChildRow['tx_container_parent']);
         self::assertSame(200, $translatedChildRow['colPos']);
@@ -253,13 +271,13 @@ class LocalizeTest extends AbstractDatahandler
                     91 => ['localize' => 1],
                     1 => ['localize' => 1],
                 ],
-            ]],
+            ], 'Dataset1'],
             ['cmdmap' => [
                 'tt_content' => [
                     1 => ['localize' => 1],
                     91 => ['localize' => 1],
                 ],
-            ]],
+            ], 'Dataset2'],
         ];
     }
 
@@ -267,11 +285,13 @@ class LocalizeTest extends AbstractDatahandler
      * @test
      * @dataProvider localizeTwoContainerKeepsParentIndependedOnOrderDataProvider
      */
-    public function localizeTwoContainerKeepsParentIndependedOnOrder(array $cmdmap): void
+    public function localizeTwoContainerKeepsParentIndependedOnOrder(array $cmdmap, string $dataset): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/Localize/localize_container_keeps_parent_indepented_on_order.csv');
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__ . $dataset);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeTwoContainerKeepsParentIndependedOnOrder' . $dataset . 'Result.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 2);
         self::assertSame(1, $translatedChildRow['tx_container_parent']);
         $secondChildRow = $this->fetchOneRecord('t3_origuid', 92);
@@ -289,13 +309,13 @@ class LocalizeTest extends AbstractDatahandler
                     91 => ['copyToLanguage' => 1],
                     1 => ['copyToLanguage' => 1],
                 ],
-            ]],
+            ], 'Dataset1'],
             ['cmdmap' => [
                 'tt_content' => [
                     1 => ['copyToLanguage' => 1],
                     91 => ['copyToLanguage' => 1],
                 ],
-            ]],
+            ], 'Dataset2'],
         ];
     }
 
@@ -303,11 +323,13 @@ class LocalizeTest extends AbstractDatahandler
      * @test
      * @dataProvider localizeWithCopyTwoContainerChangeParentIndependedOnOrderDataProvider
      */
-    public function localizeWithCopyTwoContainerChangeParentIndependedOnOrder(array $cmdmap): void
+    public function localizeWithCopyTwoContainerChangeParentIndependedOnOrder(array $cmdmap, string $dataset): void
     {
         $this->importCSVDataSet(__DIR__ . '/Fixtures/Localize/localize_container_keeps_parent_indepented_on_order.csv');
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__ . $dataset);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeWithCopyTwoContainerChangeParentIndependedOnOrder' . $dataset . 'Result.csv');
         $translatedChildRow = $this->fetchOneRecord('t3_origuid', 2);
         $translatedContainer = $this->fetchOneRecord('t3_origuid', 1);
         self::assertSame($translatedContainer['uid'], $translatedChildRow['tx_container_parent']);
@@ -327,7 +349,8 @@ class LocalizeTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/Localize/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/Localize/LocalizeElementAfterAlreadyLocalizedContainerIsSortedAfterContainerResult.csv');
         $translatedRow = $this->fetchOneRecord('t3_origuid', 3);
         self::assertTrue($translatedRow['sorting'] > 512);
     }

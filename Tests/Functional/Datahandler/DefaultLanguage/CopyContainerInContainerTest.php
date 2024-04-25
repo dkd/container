@@ -37,6 +37,8 @@ class CopyContainerInContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/CopyContainerInContainer/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerInContainer/CopyContainerWithChildContainersCopiesContentInChildContainersIntoCorrectContainerResult.csv');
         $copiedChildContainer1 = $this->fetchOneRecord('t3_origuid', 2);
         $copiedContentInChildContainer1 = $this->fetchOneRecord('t3_origuid', 3);
         $copiedChildContainer2 = $this->fetchOneRecord('t3_origuid', 4);

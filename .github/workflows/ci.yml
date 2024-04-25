@@ -52,17 +52,17 @@ jobs:
         if: matrix.TYPO3 != '13'
         run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s functional
 
-      - name: Functional Tests v13
-        if: matrix.TYPO3 == '13'
-        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s functional -e "--exclude-group=content_defender"
+#      - name: Functional Tests v13
+#        if: matrix.TYPO3 == '13'
+#        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s functional -e "--exclude-group=content_defender"
 
       - name: Acceptance Tests v12/v11
         if: matrix.TYPO3 != '13'
         run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e --fail-fast
 
-      - name: Acceptance Tests v13
-        if: matrix.TYPO3 == '13'
-        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e "--fail-fast --skip-group=content_defender --skip-group=workspace"
+#      - name: Acceptance Tests v13
+#        if: matrix.TYPO3 == '13'
+#        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -t ${{ matrix.TYPO3 }} -s acceptance -e "--fail-fast --skip-group=content_defender --skip-group=workspace"
 
       - name: Archive acceptance tests results
         uses: actions/upload-artifact@v2

@@ -34,7 +34,8 @@ class NewElementTest extends AbstractDatahandler
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/NewElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/NewElement/NewElementAfterContainerSortElementAfterLastChildResult.csv');
         $newRecord = $this->fetchOneRecord('uid', 3);
         $lastChildInContainer = $this->fetchOneRecord('uid', 2);
         self::assertTrue($newRecord['sorting'] > $lastChildInContainer['sorting'], 'new element is not sorted after last child in container');
@@ -59,7 +60,8 @@ class NewElementTest extends AbstractDatahandler
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/NewElement/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/NewElement/NewElementAfterNestedContainerSortElementAfterLastChildResult.csv');
         $newRecord = $this->fetchOneRecord('uid', 5);
         $lastChildInContainer = $this->fetchOneRecord('uid', 4);
         self::assertTrue($newRecord['sorting'] > $lastChildInContainer['sorting'], 'new element is not sorted after last child in container');

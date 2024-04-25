@@ -47,6 +47,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/DeleteContainerDeleteChildrenResult.csv');
         $queryBuilder = $this->getQueryBuilder();
         $row = $queryBuilder->select('uid', 'deleted')
             ->from('tt_content')
@@ -109,6 +111,8 @@ class ContainerTest extends AbstractDatahandler
 
         $this->dataHandler->start($datamap, [], $this->backendUser);
         $this->dataHandler->process_datamap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/NewVersionDoesNotCreateNewVersionsOfChildrenResult.csv');
 
         // new container
         $row = $this->fetchOneRecord('t3ver_oid', 1);
@@ -149,6 +153,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveChildsColPosInContainerResult.csv');
 
         // moved record is not modified
         $row = $this->fetchOneRecord('uid', 2);
@@ -186,7 +192,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveChildOutsideContainerResult.csv');
         // moved record is not modified
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(1, $row['tx_container_parent']);
@@ -223,7 +230,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveChildsColPosInOtherContainerResult.csv');
         // copied record is not modified
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(1, $row['tx_container_parent']);
@@ -260,6 +268,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyChildsColPosInContainerResult.csv');
 
         // moved record is not modified
         $row = $this->fetchOneRecord('uid', 2);
@@ -298,6 +308,8 @@ class ContainerTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
 
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyChildOutsideContainerResult.csv');
         // copied record is not modified
         $row = $this->fetchOneRecord('uid', 2);
         self::assertSame(1, $row['tx_container_parent']);
@@ -334,6 +346,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyChildsColPosInOtherContainerResult.csv');
 
         // copied record is not modified
         $row = $this->fetchOneRecord('uid', 2);
@@ -369,6 +383,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerResult.csv');
 
         // copied child is not modified
         $row = $this->fetchOneRecord('uid', 2);
@@ -422,6 +438,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveRecordInColPosCreatesWorkspaceElementInContainerResult.csv');
         $origFirstElement = $this->fetchOneRecord('uid', 2);
         $workspaceElement = $this->fetchOneRecord('t3ver_oid', 5);
         self::assertSame(1, $workspaceElement['tx_container_parent']);
@@ -450,7 +468,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyContainerWithChildHasDeletedPlaceholderInWorkspaceDoNotCopyThisChildResult.csv');
         $copiedContainer = $this->fetchOneRecord('t3_origuid', 10);
         //no children
 
@@ -483,6 +502,8 @@ class ContainerTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
+        $this->writeCsv(__DIR__, '/Fixtures/', __METHOD__);
+        self::assertCSVDataSet(__DIR__ . '/Fixtures/DeleteContainerWithChildHasDeletedPlaceholderInWorkspaceDoNotDiscardThisChildResult.csv');
         // deleted placeholder exists
         $this->fetchOneRecord('uid', 12);
     }

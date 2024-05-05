@@ -13,7 +13,6 @@ namespace B13\Container\Tests\Functional\Datahandler\ContentDefender;
  */
 
 use B13\Container\Tests\Functional\Datahandler\AbstractDatahandler;
-use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -64,11 +63,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/MoveElementIntoContainerAtTopDoNotMoveDisallowedCTypeElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 71);
-        self::assertSame(0, (int)$row['tx_container_parent'], 'element should not be inside container');
-        self::assertSame(0, (int)$row['colPos'], 'element should not be inside container colPos');
     }
 
     /**
@@ -97,11 +92,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/MoveElementIntoContainerAfterOtherElemenDoNotMoveDisallowedCTypeElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 71);
-        self::assertSame(0, (int)$row['tx_container_parent'], 'element should not be inside container');
-        self::assertSame(0, (int)$row['colPos'], 'element should not be inside container colPos');
     }
 
     /**
@@ -130,20 +121,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/CopyElementIntoContainerAtTopDoNotCopyDisallowedCTypeElementResult.csv');
-        $queryBuilder = $this->getQueryBuilder();
-        $row = $queryBuilder->select('*')
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    't3_origuid',
-                    $queryBuilder->createNamedParameter(71, Connection::PARAM_INT)
-                )
-            )
-            ->executeQuery()
-            ->fetchAssociative();
-        self::assertFalse($row, 'element should not be copied');
     }
 
     /**
@@ -172,11 +150,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/MoveElementIntoContainerAtTopMoveAisallowedCTypeElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 71);
-        self::assertSame(1, (int)$row['tx_container_parent'], 'element should be inside container');
-        self::assertSame(200, (int)$row['colPos'], 'element should be inside container colPos');
     }
 
     /**
@@ -205,11 +179,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/MoveElementIntoContainerAfterOtherElemenMoveAllowedCTypeElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 71);
-        self::assertSame(1, (int)$row['tx_container_parent'], 'element should  be inside container');
-        self::assertSame(200, (int)$row['colPos'], 'element should  be inside container colPos');
     }
 
     /**
@@ -238,11 +208,7 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/CopyElementIntoContainerAtTopCopyAllowedCTypeElementResult.csv');
-        $row = $this->fetchOneRecord('t3_origuid', 71);
-        self::assertSame(1, (int)$row['tx_container_parent'], 'element should  be inside container');
-        self::assertSame(200, (int)$row['colPos'], 'element should  be inside container colPos');
     }
 
     /**
@@ -271,10 +237,6 @@ class DefaultLanguageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/DefaultLanguage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/DefaultLanguage/CopyChildFromOtherContainerIntoColposWhereTargetElementInOtherColposHasRestrictionIsAllowdResult.csv');
-        $row = $this->fetchOneRecord('t3_origuid', 73);
-        self::assertSame(1, (int)$row['tx_container_parent'], 'element should  be inside container');
-        self::assertSame(201, (int)$row['colPos'], 'element should  be inside container colPos');
     }
 }

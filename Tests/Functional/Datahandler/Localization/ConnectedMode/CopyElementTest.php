@@ -35,10 +35,7 @@ class CopyElementTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementAfterContainerCopiesTranslationAfterContainerResult.csv');
-        $translatedRow = $this->fetchOneRecord('t3_origuid', 4);
-        self::assertTrue($translatedRow['sorting'] > 512);
     }
 
     /**
@@ -63,9 +60,6 @@ class CopyElementTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/CopyElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyElement/CopyElementAfterContainerWithChildKeepsColPosForTranslatedElementResult.csv');
-        $translatedRow = $this->fetchOneRecord('t3_origuid', 4);
-        self::assertTrue($translatedRow['colPos'] === 0);
     }
 }

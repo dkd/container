@@ -40,13 +40,7 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveChildElementOutsideContainerAtTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 22);
-        self::assertSame(0, (int)$row['tx_container_parent']);
-        self::assertSame(0, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -74,13 +68,7 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveChildElementOutsideContainerAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 22);
-        self::assertSame(0, (int)$row['tx_container_parent']);
-        self::assertSame(0, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -108,13 +96,7 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveChildElementToOtherColumnTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 22);
-        self::assertSame(1, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -141,13 +123,7 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveChildElementToOtherColumnAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 22);
-        self::assertSame(1, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -175,13 +151,7 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveElementIntoContainerAtTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 24);
-        self::assertSame(1, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -208,12 +178,6 @@ class MoveElementTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElement/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElement/MoveElementIntoContainerAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 24);
-        self::assertSame(1, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(1, (int)$row['pid']);
-        self::assertSame(1, (int)$row['sys_language_uid']);
     }
 }

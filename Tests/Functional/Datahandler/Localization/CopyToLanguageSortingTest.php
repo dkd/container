@@ -52,17 +52,7 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
         $this->importCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/localize_containers.csv');
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__ . $dataset);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeKeepsSorting' . $dataset . 'Result.csv');
-        $translatedContainer1 = $this->fetchOneRecord('t3_origuid', 1);
-        $translatedChild11 = $this->fetchOneRecord('t3_origuid', 2);
-        $translatedChild12 = $this->fetchOneRecord('t3_origuid', 3);
-        $translatedContainer2 = $this->fetchOneRecord('t3_origuid', 4);
-        $translatedChild21 = $this->fetchOneRecord('t3_origuid', 5);
-        self::assertTrue($translatedContainer1['sorting'] < $translatedChild11['sorting'], 'child-1-1 is sorted before container-1');
-        self::assertTrue($translatedChild11['sorting'] < $translatedChild12['sorting'], 'child-1-2 is sorted before child-1-1');
-        self::assertTrue($translatedChild12['sorting'] < $translatedContainer2['sorting'], 'container-2 is sorted before child-1-2');
-        self::assertTrue($translatedContainer2['sorting'] < $translatedChild21['sorting'], 'child-2-1 is sorted before container-2');
     }
 
     /**
@@ -80,13 +70,7 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeChildAtTopOfContainerResult.csv');
-        $translatedContainer1 = $this->fetchOneRecord('uid', 4);
-        $translatedChild11 = $this->fetchOneRecord('t3_origuid', 2);
-        $translatedChild12 = $this->fetchOneRecord('uid', 5);
-        self::assertTrue($translatedContainer1['sorting'] < $translatedChild11['sorting'], 'child-1-1 is sorted before container-1');
-        self::assertTrue($translatedChild11['sorting'] < $translatedChild12['sorting'], 'child-1-1 is sorted after child-1-2');
     }
 
     /**
@@ -104,12 +88,6 @@ class CopyToLanguageSortingTest extends AbstractDatahandler
         ];
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/CopyToLanguageSorting/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/CopyToLanguageSorting/LocalizeChildAfterContainerChildResult.csv');
-        $translatedContainer1 = $this->fetchOneRecord('uid', 4);
-        $translatedChild11 = $this->fetchOneRecord('uid', 5);
-        $translatedChild12 = $this->fetchOneRecord('t3_origuid', 3);
-        self::assertTrue($translatedContainer1['sorting'] < $translatedChild11['sorting'], 'child-1-1 is sorted before container-1');
-        self::assertTrue($translatedChild11['sorting'] < $translatedChild12['sorting'], 'child-1-1 is sorted after child-1-2');
     }
 }

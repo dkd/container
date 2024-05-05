@@ -11,9 +11,6 @@ namespace B13\Container\Tests\Functional\Datahandler;
  */
 
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -67,83 +64,5 @@ abstract class AbstractDatahandler extends FunctionalTestCase
         $GLOBALS['BE_USER'] = $this->backendUser;
         $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    protected function getQueryBuilder(): QueryBuilder
-    {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
-        $queryBuilder->getRestrictions()->removeAll();
-        return $queryBuilder;
-    }
-
-    /**
-     * @param string $field
-     * @param int $id
-     * @return array
-     */
-    protected function fetchOneRecord(string $field, int $id): array
-    {
-        $queryBuilder = $this->getQueryBuilder();
-        $row = $queryBuilder->select('*')
-            ->from('tt_content')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    $field,
-                    $queryBuilder->createNamedParameter($id, Connection::PARAM_INT)
-                )
-            )
-            ->executeQuery()
-            ->fetchAssociative();
-        self::assertIsArray($row, 'cannot fetch row for field ' . $field . ' with id ' . $id);
-        return $row;
-    }
-
-    protected function writeCsv(string $baseDir, string $relativeDir, string $method, bool $result = true): void
-    {
-        $contents = [];
-        $config = [
-            'pages' => ['uid', 'pid', 'title'],
-            'tt_content' => ['uid', 'pid', 'CType', 'header', 'sorting', 'sys_language_uid', 'colPos', 'tx_container_parent', 'l18n_parent', 'l10n_source'],
-        ];
-        //$config['tt_content'] = array_merge($config['tt_content'], ['t3ver_oid', 't3ver_wsid', 't3ver_state', 't3ver_stage']);
-        $stringFields = ['title', 'CType', 'header'];
-        foreach ($config as $table => $fields) {
-            $contents[] = '"' . $table . '"';
-            $lineContents = [];
-            foreach ($fields as $field) {
-                $lineContents[] = '"' . $field . '"';
-            }
-            $contents[] = ',' . implode(',', $lineContents);
-            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-            $queryBuilder->getRestrictions()->removeAll();
-            $rows = $queryBuilder->select(...$fields)
-                ->from($table)
-                ->executeQuery()
-                ->fetchAllAssociative();
-            foreach ($rows as $row) {
-                $lineContents = [];
-                foreach ($fields as $field) {
-                    if (in_array($field, $stringFields)) {
-                        $lineContents[] = '"' . $row[$field] . '"';
-                    } else {
-                        $lineContents[] = $row[$field];
-                    }
-                }
-                $contents[] = ',' . implode(',', $lineContents);
-            }
-        }
-        $method = ucfirst(preg_replace('/.*::(.*)/', '$1', $method));
-        if ($result === true) {
-            $out = $baseDir . $relativeDir . $method . 'Result.csv';
-            //var_dump('self::assertCSVDataSet(__DIR__ . \'' . $relativeDir . $method . 'Result.csv\');');
-            //file_put_contents($out, implode("\n", $contents) . "\n");
-        } else {
-            $out = $baseDir . $relativeDir . $method . '.csv';
-            //var_dump('$this->importCSVDataSet(__DIR__ . \'' . $relativeDir . $method . '.csv\');');
-            //file_put_contents($out, implode("\n", $contents) . "\n");
-        }
     }
 }

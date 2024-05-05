@@ -40,13 +40,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveChildElementOutsideContainerAtTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 2);
-        self::assertSame(0, (int)$row['tx_container_parent']);
-        self::assertSame(0, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -74,13 +68,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveChildElementOutsideContainerAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 2);
-        self::assertSame(0, (int)$row['tx_container_parent']);
-        self::assertSame(0, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -108,15 +96,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveChildElementToOtherColumnTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 2);
-        self::assertSame(11, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
-        $container = $this->fetchOneRecord('uid', 11);
-        self::assertTrue($row['sorting'] > $container['sorting'], 'moved element is not sorted after container');
     }
 
     /**
@@ -143,13 +123,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveChildElementToOtherColumnAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 2);
-        self::assertSame(11, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -177,15 +151,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveElementIntoContainerAtTopResult.csv');
-        $row = $this->fetchOneRecord('uid', 4);
-        self::assertSame(11, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
-        $container = $this->fetchOneRecord('uid', 11);
-        self::assertTrue($row['sorting'] > $container['sorting'], 'moved element is not sorted after container');
     }
 
     /**
@@ -212,13 +178,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveElementIntoContainerAfterElementResult.csv');
-        $row = $this->fetchOneRecord('uid', 4);
-        self::assertSame(11, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -238,13 +198,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveElementIntoContainerAfterElementWithSimpleCommandMapResult.csv');
-        $row = $this->fetchOneRecord('uid', 4);
-        self::assertSame(11, (int)$row['tx_container_parent']);
-        self::assertSame(201, (int)$row['colPos']);
-        self::assertSame(3, (int)$row['pid']);
-        self::assertSame(0, (int)$row['sys_language_uid']);
     }
 
     /**
@@ -271,13 +225,7 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveElementAfterContainerSortElementAfterLastContainerChildResult.csv');
-        $row = $this->fetchOneRecord('uid', 4);
-        $lastChild = $this->fetchOneRecord('uid', 13);
-        $nextElement = $this->fetchOneRecord('uid', 14);
-        self::assertTrue($row['sorting'] > $lastChild['sorting'], 'moved element is not sorted after last child container');
-        self::assertTrue($row['sorting'] < $nextElement['sorting'], 'moved element is not sorted before containers next element');
     }
 
     /**
@@ -297,12 +245,6 @@ class MoveElementOtherPageTest extends AbstractDatahandler
         $this->dataHandler->start([], $cmdmap, $this->backendUser);
         $this->dataHandler->process_datamap();
         $this->dataHandler->process_cmdmap();
-        $this->writeCsv(__DIR__, '/Fixtures/MoveElementOtherPage/', __METHOD__);
         self::assertCSVDataSet(__DIR__ . '/Fixtures/MoveElementOtherPage/MoveElementAfterContainerSortElementAfterLastContainerChildSimpleCommandResult.csv');
-        $row = $this->fetchOneRecord('uid', 4);
-        $lastChild = $this->fetchOneRecord('uid', 13);
-        $nextElement = $this->fetchOneRecord('uid', 14);
-        self::assertTrue($row['sorting'] > $lastChild['sorting'], 'copied element is not sorted after last child container');
-        self::assertTrue($row['sorting'] < $nextElement['sorting'], 'copied element is not sorted before containers next element');
     }
 }

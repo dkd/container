@@ -1,8 +1,11 @@
 
     git clone https://github.com/typo3/typo3.git
-    git checkout 12.4
+    # 13.0.1
+    cp container-patch.patch .
     
 
+
+build patch file
 cache ?
 js-12
 js-13
